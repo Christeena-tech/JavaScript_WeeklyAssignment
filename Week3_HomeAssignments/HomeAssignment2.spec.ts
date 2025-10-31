@@ -1,0 +1,27 @@
+import test,{expect} from '@playwright/test'
+
+test("Week3_Home Assignment 2",async({page})=>{
+   await  page.goto("http://leaftaps.com/opentaps/control/main")
+   await page.getByRole('textbox',{name:"Username"}).fill("Demosalesmanager")
+   await page.getByRole('textbox',{name:"Password"}).fill("crmsfa")
+   await page.getByRole('button',{name:"Login"}).click()
+   await page.waitForTimeout(2000)
+   await page.getByRole('link',{name:"CRM/SFA"}).click()
+   await page.waitForTimeout(3000)
+   await page.getByRole('link',{name:"Leads"}).click()
+   await page.waitForTimeout(3000)
+   await page.getByRole('link',{name:"Find Leads"}).click()
+   await page.waitForTimeout(2000)
+   await page.getByRole('textbox',{name:"First name"}).fill("Albert")
+   await page.getByRole('button',{name:"Find Leads"}).click()
+   await page.getByRole('link',{name:"10914"}).click()
+   await page.waitForTimeout(3000)
+   await page.getByRole('link',{name:"Edit"}).click()
+   const companyNameBeforeEdit=await page.inputValue("//input[@id='updateLeadForm_companyName']")
+   await page.locator("//input[@id='updateLeadForm_companyName']").clear()
+   await page.locator("//input[@id='updateLeadForm_companyName']").fill("TCS")
+   const companyNameAfterEdit=await page.inputValue("//input[@id='updateLeadForm_companyName']")
+   expect(companyNameBeforeEdit).not.toBe(companyNameAfterEdit)
+   console.log("Company Name shouldn't be matched")
+   await page.getByRole('button',{name:"Update"}).click()
+});
